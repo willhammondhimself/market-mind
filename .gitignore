@@ -1,0 +1,46 @@
+# Dependencies
+node_modules/
+.venv/
+__pycache__/
+*.pyc
+*.pyo
+
+# Build
+client/dist/
+*.egg-info/
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Testing
+.coverage
+htmlcov/
+.pytest_cache/
+
+# RL Models (large binary files)
+*.pkl
+*.zip
+*.pt
+*.pth
+model_weights/
+
+# Logs
+*.log
+logs/
+
+# Misc
+*.bak
+*.tmp

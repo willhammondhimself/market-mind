@@ -1,0 +1,125 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://marketmind.local/schemas/websocket_client.schema.json",
+  "title": "WebSocket Client Messages",
+  "description": "Schema for messages sent from client to server over WebSocket",
+  "type": "object",
+  "oneOf": [
+    {
+      "$ref": "#/definitions/OrderMessage"
+    },
+    {
+      "$ref": "#/definitions/CancelMessage"
+    },
+    {
+      "$ref": "#/definitions/ModifyMessage"
+    },
+    {
+      "$ref": "#/definitions/CancelAllMessage"
+    }
+  ],
+  "definitions": {
+    "OrderMessage": {
+      "type": "object",
+      "title": "Order Message",
+      "description": "Request to place a new order",
+      "properties": {
+        "type": {
+          "const": "order",
+          "description": "Message type identifier"
+        },
+        "asset": {
+          "type": "string",
+          "description": "Ticker symbol (e.g., 'AAPL', 'TSLA')",
+          "minLength": 1,
+          "maxLength": 10
+        },
+        "side": {
+          "enum": ["bid", "ask"],
+          "description": "Order side: 'bid' for buy, 'ask' for sell"
+        },
+        "price": {
+          "type": "number",
+          "description": "Limit price for the order (must be positive)",
+          "exclusiveMinimum": 0
+        },
+        "size": {
+          "type": "integer",
+          "description": "Order quantity (must be positive)",
+          "minimum": 1
+        },
+        "order_type": {
+          "const": "limit",
+          "description": "Order type (currently only limit orders supported)"
+        }
+      },
+      "required": ["type", "asset", "side", "price", "size", "order_type"],
+      "additionalProperties": false
+    },
+    "CancelMessage": {
+      "type": "object",
+      "title": "Cancel Message",
+      "description": "Request to cancel a specific order",
+      "properties": {
+        "type": {
+          "const": "cancel",
+          "description": "Message type identifier"
+        },
+        "order_id": {
+          "type": "string",
+          "description": "Unique identifier of the order to cancel",
+          "minLength": 1
+        }
+      },
+      "required": ["type", "order_id"],
+      "additionalProperties": false
+    },
+    "ModifyMessage": {
+      "type": "object",
+      "title": "Modify Message",
+      "description": "Request to modify an existing order's price and/or size",
+      "properties": {
+        "type": {
+          "const": "modify",
+          "description": "Message type identifier"
+        },
+        "order_id": {
+          "type": "string",
+          "description": "Unique identifier of the order to modify",
+          "minLength": 1
+        },
+        "new_price": {
+          "type": ["number", "null"],
+          "description": "New limit price (null to keep existing price)",
+          "minimum": 0
+        },
+        "new_size": {
+          "type": ["integer", "null"],
+          "description": "New order quantity (null to keep existing size)",
+          "minimum": 1
+        }
+      },
+      "required": ["type", "order_id", "new_price", "new_size"],
+      "additionalProperties": false
+    },
+    "CancelAllMessage": {
+      "type": "object",
+      "title": "Cancel All Message",
+      "description": "Request to cancel all orders for a specific asset or across all assets",
+      "properties": {
+        "type": {
+          "const": "cancel_all",
+          "description": "Message type identifier"
+        },
+        "asset": {
+          "type": ["string", "null"],
+          "description": "Ticker symbol to cancel all orders for (null to cancel all orders across all assets)",
+          "minLength": 1,
+          "maxLength": 10
+        }
+      },
+      "required": ["type", "asset"],
+      "additionalProperties": false
+    }
+  }
+}

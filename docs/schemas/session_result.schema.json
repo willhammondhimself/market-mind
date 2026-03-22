@@ -1,0 +1,116 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://marketmind.local/schemas/session_result.schema.json",
+  "title": "Session Result",
+  "description": "Schema for session result and debrief data returned after session completion",
+  "type": "object",
+  "properties": {
+    "session_id": {
+      "type": "string",
+      "description": "Unique identifier for this session",
+      "minLength": 1
+    },
+    "player_id": {
+      "type": "string",
+      "description": "Unique identifier for the player",
+      "minLength": 1
+    },
+    "mode": {
+      "type": "string",
+      "description": "Game mode that was played (career, practice, challenge, or multiplayer)",
+      "enum": ["career", "practice", "challenge", "multiplayer"]
+    },
+    "final_pnl": {
+      "type": "number",
+      "description": "Total profit/loss from the session (realized + unrealized at end)"
+    },
+    "letter_grade": {
+      "type": "string",
+      "description": "Overall performance letter grade",
+      "enum": ["S", "A", "B", "C", "D", "F"]
+    },
+    "composite_score": {
+      "type": "number",
+      "description": "Weighted composite score (0-100 scale)",
+      "minimum": 0,
+      "maximum": 100
+    },
+    "component_scores": {
+      "type": "object",
+      "description": "Individual component scores contributing to composite score",
+      "properties": {
+        "pnl": {
+          "type": "number",
+          "description": "Profit/loss component score (higher is better)"
+        },
+        "sharpe": {
+          "type": "number",
+          "description": "Sharpe ratio component score (risk-adjusted returns)"
+        },
+        "spread_efficiency": {
+          "type": "number",
+          "description": "Ability to trade favorable spreads"
+        },
+        "max_drawdown": {
+          "type": "number",
+          "description": "Maximum peak-to-trough drawdown score (lower is better)"
+        },
+        "inventory_management": {
+          "type": "number",
+          "description": "Effectiveness of inventory risk management"
+        }
+      },
+      "required": ["pnl", "sharpe", "spread_efficiency", "max_drawdown", "inventory_management"],
+      "additionalProperties": false
+    },
+    "capital_change": {
+      "type": "number",
+      "description": "Change in capital from session start to end"
+    },
+    "new_capital": {
+      "type": "number",
+      "description": "Total capital balance after session completion",
+      "minimum": 0
+    },
+    "duration_seconds": {
+      "type": "integer",
+      "description": "Actual duration of the session in seconds",
+      "minimum": 0
+    },
+    "assets_traded": {
+      "type": "array",
+      "description": "List of assets that had at least one trade or order during the session",
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 10
+      }
+    },
+    "streak_count": {
+      "type": "integer",
+      "description": "Current streak count (consecutive high-performance sessions)",
+      "minimum": 0
+    },
+    "multiplier": {
+      "type": "number",
+      "description": "Final score multiplier applied (based on challenge modes, difficulty, or streak)",
+      "minimum": 1
+    }
+  },
+  "required": [
+    "session_id",
+    "player_id",
+    "mode",
+    "final_pnl",
+    "letter_grade",
+    "composite_score",
+    "component_scores",
+    "capital_change",
+    "new_capital",
+    "duration_seconds",
+    "assets_traded",
+    "streak_count",
+    "multiplier"
+  ],
+  "additionalProperties": false
+}
