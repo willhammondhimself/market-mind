@@ -1,5 +1,7 @@
 # MarketMind
 
+[![Python](https://img.shields.io/badge/Python-3.12+-blue.svg)](https://www.python.org/) [![FastAPI](https://img.shields.io/badge/FastAPI-0.108+-green.svg)](https://fastapi.tiangolo.com/) [![React](https://img.shields.io/badge/React-18.2+-61DAFB.svg)](https://reactjs.org/) [![SAC](https://img.shields.io/badge/RL-SAC-red.svg)]() [![LLM](https://img.shields.io/badge/LLM-Claude_Haiku-blueviolet.svg)]()
+
 Real-time market making simulator with adaptive AI opponents.
 
 Quote bid/ask prices on a continuous order book while AI agents — from rule-based bots to reinforcement learning agents — act as your counterparties. They adapt to your style, silently exploit your weaknesses, and get harder as you improve.
